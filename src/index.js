@@ -1,6 +1,6 @@
-const app = require('./config/express');
-require('./config/handlebars')(app);
+const express = require('express');
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
+const app = express();
+
+require('./config/express')(app);
+require('./config/handlebars')(app);
