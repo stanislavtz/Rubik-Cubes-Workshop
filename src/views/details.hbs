@@ -1,9 +1,21 @@
-<div class="details">
-    <form action="cube/{{_id}}/details" method="POST">
-        <Label><Input type="text" name="name" value="{{name}}"></Input></Label>
-        <Label><Input type="text" name="description" value="{{description}}"></Input></Label>
-        <Label><Input type="text" name="imageUrl" value="{{imageUrl}}"></Input></Label>
-        <Label><Input type="number" name="difficulty" value="{{difficulty}}"></Input></Label>
-        <input type="submit" value="EDIT DETAILS">
+<h1>Details</h1>
+<div class="form">
+    <form action='/cube/{{_id}}/details' method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{name}}">
+        <label for="name">Description</label>
+        <textarea id="name" name="description">{{description}}</textarea>
+        <label for="image">ImageUrl</label>
+        <input type="text" id="image" name="imageUrl" value="{{imageUrl}}">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty" name="difficulty">
+            <option value="1">1 - Very Easy</option>
+            <option value="2">2 - Easy</option>
+            <option value="3">3 - Medium (Standard 3x3)</option>
+            <option value="4">4 - Intermediate</option>
+            <option value="5">5 - Expert</option>
+            <option value="6">6 - Hardcore</option>
+        </select>
+        <input type="submit" value="Edit">
     </form>
 </div>
