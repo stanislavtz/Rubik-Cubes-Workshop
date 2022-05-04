@@ -8,7 +8,7 @@ const createCube = (req, res) => {
     const cube = { name, imageUrl, description, difficulty }
 
     create(cube)
-        .then(result => console.log('Cube created\n', result));    
+        .then(result => console.log('Cube created: ', result));    
     
     res.redirect('/');
 }
