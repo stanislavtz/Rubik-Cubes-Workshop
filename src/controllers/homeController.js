@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getAll } = require('../services/cubeService');
+const { getAllCubes } = require('../services/cubeService');
 
 router.get('/', renderHomePage);
 router.get('/about', renderAboutPage);
@@ -7,7 +7,7 @@ router.get('/search', renderSearchResult);
 
 async function renderHomePage(req, res) {
     try {
-        const cubes = await getAll();
+        const cubes = await getAllCubes();
         res.render('home', { cubes })
     } catch (error) {
         console.error(error);
