@@ -1,32 +1,28 @@
 const mongoose = require('mongoose');
+const { imageUrlValidator } = require('../utils/validators');
 
 const cubeSchema = new mongoose.Schema({
     name:{
         type: String,
-        required: true,
+        required: [true, 'Name is required'],
     },
     description: {
         type: String,
         required: true,
-        maxlength: 200,
+        maxlength: [200, 'Text length should be maximum 200 characters.']
     },
     imageUrl: {
         type: String,
         required: true,
-        validate: {
-            validator: function(v) {
-                return /^https?/.test(v);
-            },
-            message: `imageUrl must start with http or https`
-        }
+        validate: imageUrlValidator
     },
     difficulty: {
         type: Number,
         required: true,
-        min: 1,
-        max: 6,
+        min: [1, 'Difficulty level should be greater than or equal to 1'],
+        max: [6, 'Difficulty level should be less than or equal to 6'],
     },
-    accessories: []
+    accessories: [{type: mongoose.Types.ObjectId, ref: 'Accessory'}]
 });
 
 const Cube = mongoose.model('Cube', cubeSchema);
