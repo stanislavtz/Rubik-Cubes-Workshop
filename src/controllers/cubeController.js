@@ -20,8 +20,17 @@ const createCube = (req, res) => {
         .catch(err => console.log(err));
 }
 
+const renderCubeAttachAccessoryPage = (req, res) => {
+    const id = req.params.id;
+
+    getById(id)
+        .then(cube => res.render('cube/attach', {...cube}))
+        .catch(err => console.error(err));
+}
+
 router.get('/create', renderCreateCubePage);
 router.get('/:id/details', renderCubeDetailsPage);
+router.get('/:id/attach', renderCubeAttachAccessoryPage);
 
 router.post('/create', createCube);
 
