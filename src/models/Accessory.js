@@ -14,7 +14,7 @@ const accessorySchema = new mongoose.Schema({
     description: {
         type: String,
         required: [true, 'Description is required'],
-        maxlength: [200, 'Text length should be maximum 200 characters.'],
+        maxlength: [500, 'Text length should be maximum 500 characters.'],
     },
     cubes: [{type: mongoose.Types.ObjectId, ref: 'Cube'}]
 });
