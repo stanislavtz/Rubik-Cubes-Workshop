@@ -1,12 +1,10 @@
-const router = require('express').Router();
 const { create, getCubeById, updateCube } = require('../services/cubeService');
 const { getAllAccessories, getAccessoryById, updateAccessory } = require('../services/accessoryService');
 
 const renderCreateCubePage = (req, res) => res.render('cube/create');
 
 const renderCubeDetailsPage = async (req, res) => {
-    const id = req.params.id;
-    const cube = await getCubeById(id).populate('accessories');
+    const cube = await getCubeById(req.params.id).populate('accessories');
 
     res.render('cube/details', { ...cube, accessories: cube.accessories })
 }
@@ -20,14 +18,15 @@ const createCube = (req, res) => {
         .catch(err => console.log(err));
 }
 
-let cube;
 const renderCubeAttachAccessoryPage = async (req, res) => {
     try {
-        const id = req.params.id;
-        cube = await getCubeById(id).populate('accessories');
+        const cube = await getCubeById(req.params.id);
         const accessories = await getAllAccessories();
-        
-        const notAttached = accessories.filter(acc => !acc.cubes.map(a => a.toString()).includes(cube._id.toString()));
+        const notAttached = accessories.filter(acc =>
+            !acc.cubes
+                .map(a => a.toString())
+                .includes(cube._id.toString())
+        );
 
         res.render('cube/attach', { ...cube, accessories: notAttached });
     } catch (error) {
@@ -37,8 +36,8 @@ const renderCubeAttachAccessoryPage = async (req, res) => {
 
 const attachAccessory = async (req, res) => {
     try {
-        const accessoryId = req.body.accessory;
-        const accessory = await getAccessoryById(accessoryId);
+        const cube = await getCubeById(req.params.id);
+        const accessory = await getAccessoryById(req.body.accessory);
 
         cube.accessories.push(accessory._id);
         accessory.cubes.push(cube._id);
@@ -52,11 +51,12 @@ const attachAccessory = async (req, res) => {
     }
 }
 
-router.get('/create', renderCreateCubePage);
-router.get('/:id/details', renderCubeDetailsPage);
-router.get('/:id/attach', renderCubeAttachAccessoryPage);
+const controller = {
+    createCube,
+    attachAccessory,
+    renderCreateCubePage,
+    renderCubeDetailsPage,
+    renderCubeAttachAccessoryPage,
+}
 
-router.post('/create', createCube);
-router.post('/:id/attach', attachAccessory);
-
-module.exports = router;
+module.exports = controller;
