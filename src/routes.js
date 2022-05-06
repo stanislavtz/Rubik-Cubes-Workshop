@@ -1,11 +1,13 @@
 const router = require('express').Router();
-const homeController = require('./controllers/homeController');
-const cubeRouter = require('./routers/cubeRouter');
-const accessoryController = require('./controllers/accessoryController');
 
-router.use(homeController);
+const cubeRouter = require('./routers/cubeRouter');
+const homePageRouter = require('./routers/homePageRouter');
+const accessoryRouter = require('./routers/accessoryRouter');
+
+router.use(homePageRouter);
 router.use('/cube', cubeRouter);
-router.use('/accessory', accessoryController);
+router.use('/accessory', accessoryRouter);
+
 router.get('*', (req, res) => res.render('404'));
 
 module.exports = router;
