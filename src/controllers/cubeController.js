@@ -9,15 +9,6 @@ const renderCubeDetailsPage = async (req, res) => {
     res.render('cube/details', { ...cube, accessories: cube.accessories })
 }
 
-const createCube = (req, res) => {
-    const { name, imageUrl, description, difficulty } = req.body;
-    const cube = { name, imageUrl, description, difficulty }
-
-    create(cube)
-        .then(res.redirect('/'))
-        .catch(err => console.log(err));
-}
-
 const renderCubeAttachAccessoryPage = async (req, res) => {
     try {
         const cube = await getCubeById(req.params.id);
@@ -34,9 +25,18 @@ const renderCubeAttachAccessoryPage = async (req, res) => {
     }
 }
 
+const createCube = (req, res) => {
+    const { name, imageUrl, description, difficulty } = req.body;
+    const cube = { name, imageUrl, description, difficulty }
+
+    create(cube)
+        .then(res.redirect('/'))
+        .catch(err => console.log(err));
+}
+
 const attachAccessory = async (req, res) => {
     try {
-        const cube = await getCubeById(req.params.id);
+        const cube = await getCubeById(req.params.id).populate('accessories');
         const accessory = await getAccessoryById(req.body.accessory);
 
         cube.accessories.push(accessory._id);
@@ -45,7 +45,7 @@ const attachAccessory = async (req, res) => {
         await updateCube(cube._id, cube);
         await updateAccessory(accessory._id, accessory);
 
-        res.redirect(`/`);
+        renderCubeAttachAccessoryPage(req, res);
     } catch (error) {
         console.error(error);
     }
