@@ -1,8 +1,4 @@
-const router = require('express').Router();
 const { create } = require('../services/accessoryService');
-
-router.get('/create', renderCreateAccessoryPage);
-router.post('/create', createAccessory);
 
 function renderCreateAccessoryPage(req, res) {
     res.render('accessory/create');
@@ -17,4 +13,8 @@ function createAccessory(req, res) {
         .catch(err => console.error(err));
 }
 
-module.exports = router;
+
+module.exports = {
+    createAccessory,
+    renderCreateAccessoryPage
+}
