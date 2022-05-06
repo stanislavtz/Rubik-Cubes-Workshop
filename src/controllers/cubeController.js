@@ -1,5 +1,5 @@
 const { create, getCubeById, updateCube } = require('../services/cubeService');
-const { getAllAccessories, getAccessoryById, updateAccessory } = require('../services/accessoryService');
+const { getNotAttachedAccessories, getAccessoryById, updateAccessory } = require('../services/accessoryService');
 
 const renderCreateCubePage = (req, res) => res.render('cube/create');
 
@@ -12,7 +12,7 @@ const renderCubeDetailsPage = async (req, res) => {
 const renderCubeAttachAccessoryPage = async (req, res) => {
     try {
         const cube = await getCubeById(req.params.id);
-        const accessories = await getAllAccessories(cube);
+        const accessories = await getNotAttachedAccessories(cube.accessories);
 
         res.render('cube/attach', { ...cube, accessories });
     } catch (error) {
@@ -31,16 +31,16 @@ const createCube = (req, res) => {
 
 const attachAccessory = async (req, res) => {
     try {
-        const cube = await getCubeById(req.params.id).populate('accessories');
+        const cube = await getCubeById(req.params.id);
         const accessory = await getAccessoryById(req.body.accessory);
 
-        cube.accessories.push(accessory._id);
+        cube.accessories.push(accessory);
         accessory.cubes.push(cube._id);
 
         await updateCube(cube._id, cube);
         await updateAccessory(accessory._id, accessory);
 
-        renderCubeAttachAccessoryPage(req, res);
+        renderCubeDetailsPage(req, res);
     } catch (error) {
         console.error(error);
     }

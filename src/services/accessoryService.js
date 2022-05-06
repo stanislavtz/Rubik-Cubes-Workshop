@@ -1,6 +1,8 @@
 const Accessory = require('../models/Accessory');
 
-const getAllAccessories = (cube) => Accessory.find().where('_id').nin(cube.accessories).lean();
+const getAllAccessories = () => Accessory.find().lean();
+
+const getNotAttachedAccessories = (collection) => Accessory.find().where('_id').nin(collection).lean();
 
 const getAccessoryById = (id) => Accessory.findById(id).lean();
 
@@ -11,6 +13,7 @@ const updateAccessory = (id, accessory) => Accessory.findByIdAndUpdate(id, acces
 module.exports = {
     create,
     updateAccessory,
+    getAccessoryById,
     getAllAccessories,
-    getAccessoryById
+    getNotAttachedAccessories
 }
