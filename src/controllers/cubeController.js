@@ -6,7 +6,7 @@ const renderCreateCubePage = (req, res) => res.render('cube/create');
 const renderCubeDetailsPage = async (req, res) => {
     const cube = await getCubeById(req.params.id).populate('accessories');
 
-    res.render('cube/details', { ...cube, accessories: cube.accessories })
+    res.render('cube/details', { ...cube, accessories: cube.accessories });
 }
 
 const renderCubeAttachAccessoryPage = async (req, res) => {
@@ -22,7 +22,7 @@ const renderCubeAttachAccessoryPage = async (req, res) => {
 
 const createCube = (req, res) => {
     const { name, imageUrl, description, difficulty } = req.body;
-    const cube = { name, imageUrl, description, difficulty }
+    const cube = { name, imageUrl, description, difficulty };
 
     create(cube)
         .then(res.redirect('/'))
