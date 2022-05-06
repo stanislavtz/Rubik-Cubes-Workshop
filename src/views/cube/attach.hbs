@@ -2,18 +2,18 @@
 <div class="form">
     <h2>{{name}}</h2>
     <img class="cube" src="{{imageUrl}}">
-    {{#each accessories}}
+    {{#if accessories}}
     <form action="/cube/{{_id}}/attach" method="POST">
         <label for="accessory">Accessories</label>
         <select id="accessory" name="accessory" />
+        {{#each accessories}}
         {{> accessory}}
+        {{/each}}
         </select>
         <input type="submit" value="Attach">
     </form>
     {{else}}
-    <h4 class="italic">Not available accessories!!!</h4>
-    <div style="text-align: center;">OR</div>
     <h3 class="italic">This cube has all available accessories so far or there is no available at all...</h3>
-    {{/each}}
+    {{/if}}
     <a class="btn" href="/cube/{{_id}}/details">Back</a>
 </div>
