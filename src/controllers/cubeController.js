@@ -12,14 +12,9 @@ const renderCubeDetailsPage = async (req, res) => {
 const renderCubeAttachAccessoryPage = async (req, res) => {
     try {
         const cube = await getCubeById(req.params.id);
-        const accessories = await getAllAccessories();
-        const notAttached = accessories.filter(acc =>
-            !acc.cubes
-                .map(a => a.toString())
-                .includes(cube._id.toString())
-        );
+        const accessories = await getAllAccessories(cube);
 
-        res.render('cube/attach', { ...cube, accessories: notAttached });
+        res.render('cube/attach', { ...cube, accessories });
     } catch (error) {
         console.error(error);
     }
