@@ -1,6 +1,6 @@
 const Accessory = require('../models/Accessory');
 
-const getAllAccessories = () => Accessory.find().lean();
+const getAllAccessories = (cube) => Accessory.find().where('_id').nin(cube.accessories).lean();
 
 const getAccessoryById = (id) => Accessory.findById(id).lean();
 
