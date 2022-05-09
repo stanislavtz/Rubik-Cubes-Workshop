@@ -8,6 +8,6 @@ router.use(homePageRouter);
 router.use('/cube', cubeRouter);
 router.use('/accessory', accessoryRouter);
 
-router.get('*', (req, res) => res.render('404'));
+router.get('*', (req, res) => res.status(404).render('404'));
 
 module.exports = router;
