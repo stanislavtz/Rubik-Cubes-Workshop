@@ -25,7 +25,7 @@ const loginUser = async ({ username, password }) => {
                 expiresIn: '1d'
             }
 
-            return await jwtPromise.sign(payload, SECRET, options);;
+            return await jwtPromise.sign(payload, SECRET, options);
         }
     } catch (err) {
         throw { message: err.message }
