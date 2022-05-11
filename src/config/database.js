@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const { connectionString } = require('../utils/constants');
+const { connectionString, cloudConnectionString } = require('../utils/constants');
 
-const dbConnect = () => mongoose.connect(connectionString);
+const dbConnect = () => mongoose.connect(cloudConnectionString);
 
 module.exports = dbConnect;
