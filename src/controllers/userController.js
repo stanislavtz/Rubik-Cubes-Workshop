@@ -1,3 +1,4 @@
+
 const { createUser, loginUser } = require("../services/userService");
 
 const renderLoginPage = (req, res) => res.render('user/login');
@@ -14,8 +15,12 @@ const register = (req, res) => {
 const login = (req, res) => {
     const { username, password } = req.body;
     loginUser({username, password})
-        .then((res) => console.log('IsLogin: ', res))
-        .then(res.redirect('/'))
+        .then((isLoggedIn) => {
+            if(isLoggedIn) {
+                res.cookie('cookie-token', `${username}alabala${password}`, { httpOnly: true});
+            }
+        })
+        .then(() => res.redirect('/'))
         .catch(err => console.log(err));
 }
 
