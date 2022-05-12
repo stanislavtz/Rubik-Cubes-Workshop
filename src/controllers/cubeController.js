@@ -1,4 +1,4 @@
-const { create, getCubeById, updateCube } = require('../services/cubeService');
+const { create, getCubeById, updateCube, deleteCube } = require('../services/cubeService');
 const { getNotAttachedAccessories, getAccessoryById, updateAccessory } = require('../services/accessoryService');
 
 const renderCreateCubePage = (req, res) => res.render('cube/create');
@@ -29,6 +29,12 @@ const renderEditCubePage = async (req, res) => {
     const cube = await getCubeById(req.params.cubeId);
 
     res.render('cube/edit', { ...cube });
+}
+
+const renderDeleteCubePage = async (req, res) => {
+    const cube = await getCubeById(req.params.cubeId);
+
+    res.render('cube/delete', { ...cube });
 }
 
 const createCube = (req, res) => {
@@ -70,6 +76,11 @@ const editCube = async (req, res) => {
     }
 }
 
+const removeCube = async (req, res) => {
+    await deleteCube(req.params.cubeId);
+    res.redirect('/');
+}
+
 const controller = {
     createCube,
     editCube,
@@ -78,6 +89,8 @@ const controller = {
     renderCubeDetailsPage,
     renderEditCubePage,
     renderCubeAttachAccessoryPage,
+    renderDeleteCubePage,
+    removeCube
 }
 
 module.exports = controller;
