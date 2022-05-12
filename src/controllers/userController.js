@@ -21,7 +21,10 @@ const login = (req, res) => {
             res.cookie(AUTH_COOKIE_NAME, token, { httpOnly: true });
             res.redirect('/');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.error(err);
+            res.redirect('/register');
+        });
 }
 
 const logout = (req, res) => {
