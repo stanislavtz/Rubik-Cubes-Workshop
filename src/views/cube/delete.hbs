@@ -1,6 +1,6 @@
 <h1>Delete Cube</h1>
 <div class="form">
-    <form action="/cube/:cubeId/delete" method="POST">
+    <form action="/cube/{{_id}}/delete" method="POST">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" value="{{name}}" disabled="true" />
         <label for="description">Description</label>
@@ -8,7 +8,7 @@
         <label for="image">ImageUrl</label>
         <input type="text" id="image" name="imageUrl" value="{{imageUrl}}" disabled="true" />
         <label for="difficulty">Difficulty</label>
-        <select id="difficulty" name="difficulty" value="{{difficulty}}" disabled="true" />
+        <select id="difficulty" name="difficulty" disabled="true" />
             <option value="1">1 - Very Easy</option>
             <option value="2">2 - Easy</option>
             <option value="3">3 - Medium (Standard 3x3)</option>
