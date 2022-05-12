@@ -1,5 +1,6 @@
-const { AUTH_COOKIE_NAME, SECRET } = require("../utils/constants");
+const { getCubeById } = require("../services/cubeService");
 const { jwtPromise } = require("../utils/promises");
+const { AUTH_COOKIE_NAME, SECRET } = require("../utils/constants");
 
 exports.auth = (req, res, next) => {
     const token = req.cookies[AUTH_COOKIE_NAME];
@@ -22,8 +23,18 @@ exports.isAuthenticated = (req, res, next) => {
     next();
 }
 
-exports.isAuthorized = (req, res, next) => {
+exports.isAuthorized = async (req, res, next) => {
+    try {
+        const cube = await getCubeById(req.params.cubeId);
+        
+        if(cube.ownerId === req.user._id) {
+            return next();
+        }
 
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 exports.isGuest = (req, res, next) => {
