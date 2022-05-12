@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const {
     createCube,
     attachAccessory,
@@ -7,11 +8,13 @@ const {
     renderCubeAttachAccessoryPage
 } = require('../controllers/cubeController');
 
-router.get('/create', renderCreateCubePage);
-router.get('/:id/details', renderCubeDetailsPage);
-router.get('/:id/attach', renderCubeAttachAccessoryPage);
+const { isAuthenticated } = require('../middlewares/authMiddleware');
 
-router.post('/create', createCube);
-router.post('/:id/attach', attachAccessory);
+router.get('/create', isAuthenticated, renderCreateCubePage);
+router.get('/:id/details', renderCubeDetailsPage);
+router.get('/:id/attach', isAuthenticated, renderCubeAttachAccessoryPage);
+
+router.post('/create', isAuthenticated, createCube);
+router.post('/:id/attach', isAuthenticated, attachAccessory);
 
 module.exports = router;
