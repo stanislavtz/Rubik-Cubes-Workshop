@@ -3,8 +3,9 @@ const {
     createAccessory,
     renderCreateAccessoryPage
 } = require('../controllers/accessoryController');
+const { isAuthenticated } = require('../middlewares/authMiddleware');
 
-router.get('/create', renderCreateAccessoryPage);
-router.post('/create', createAccessory);
+router.get('/create', isAuthenticated, renderCreateAccessoryPage);
+router.post('/create', isAuthenticated, createAccessory);
 
 module.exports = router;
