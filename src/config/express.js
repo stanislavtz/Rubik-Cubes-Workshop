@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 const routes = require('../routes');
-const { auth } = require('../middlewares/authNiddleware');
+const { auth } = require('../middlewares/authMiddleware');
 
 function configExpress(app) {
     app.use(express.static(path.resolve(__dirname, '../static')));
