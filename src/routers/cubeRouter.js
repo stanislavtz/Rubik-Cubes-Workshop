@@ -5,16 +5,18 @@ const {
     attachAccessory,
     renderCreateCubePage,
     renderCubeDetailsPage,
-    renderCubeAttachAccessoryPage
+    renderCubeAttachAccessoryPage,
+    renderEditCubePage
 } = require('../controllers/cubeController');
 
-const { isAuthenticated } = require('../middlewares/authMiddleware');
+const { isAuthenticated, isAuthorized } = require('../middlewares/authMiddleware');
 
 router.get('/create', isAuthenticated, renderCreateCubePage);
-router.get('/:id/details', renderCubeDetailsPage);
-router.get('/:id/attach', isAuthenticated, renderCubeAttachAccessoryPage);
+router.get('/:cubeId/details', renderCubeDetailsPage);
+router.get('/:cubeId/attach', isAuthenticated, isAuthorized, renderCubeAttachAccessoryPage);
+router.get('/:cubeId/edit', isAuthenticated, isAuthorized, renderEditCubePage);
 
 router.post('/create', isAuthenticated, createCube);
-router.post('/:id/attach', isAuthenticated, attachAccessory);
+router.post('/:cubeId/attach', isAuthenticated, attachAccessory);
 
 module.exports = router;
