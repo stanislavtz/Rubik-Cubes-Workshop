@@ -6,17 +6,18 @@ const renderCreateCubePage = (req, res) => res.render('cube/create');
 const renderCubeDetailsPage = async (req, res) => {
     const cube = await getCubeById(req.params.cubeId).populate('accessories');
     let isCubeOwner = false;
-    if (cube.ownerId === req.user._id) isCubeOwner = true;
-    res.render('cube/details', { ...cube, accessories: cube.accessories, user: req.user, isCubeOwner });
+    if (cube.ownerId === req.user?._id) { isCubeOwner = true; }
+
+    res.render('cube/details', { ...cube, isCubeOwner });
 }
 
 const renderCubeAttachAccessoryPage = async (req, res) => {
     try {
         const cube = await getCubeById(req.params.cubeId);
         const accessories = await getNotAttachedAccessories(cube.accessories);
-        
+
         let isCubeOwner = false;
-        if (cube.ownerId === req.user._id) isCubeOwner = true;
+        if (cube.ownerId === req.user?._id) { isCubeOwner = true; }
 
         res.render('cube/attach', { ...cube, accessories, isCubeOwner });
     } catch (error) {
@@ -57,8 +58,21 @@ const attachAccessory = async (req, res) => {
     }
 }
 
+const editCube = async (req, res) => {
+    try {
+        const cube = await getCubeById(req.params.cubeId).populate('accessories');
+        const updatedCube = { ...cube, ...req.body }
+        await updateCube(cube._id, updatedCube);
+        
+        res.render('cube/details', {...updatedCube, isCubeOwner: true});
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 const controller = {
     createCube,
+    editCube,
     attachAccessory,
     renderCreateCubePage,
     renderCubeDetailsPage,
