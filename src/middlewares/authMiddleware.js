@@ -16,10 +16,10 @@ exports.auth = (req, res, next) => {
 
 exports.isAuthenticated = (req, res, next) => {
     if(!req.user) {
-        return next();
+        return res.redirect('/login');
     }
 
-    return req.user;
+    next();
 }
 
 exports.isAuthorized = (req, res, next) => {
@@ -28,8 +28,8 @@ exports.isAuthorized = (req, res, next) => {
 
 exports.isGuest = (req, res, next) => {
     if(req.user) {
-        return next();
+        return res.redirect('/');
     }
 
-    return undefined;
+    next();
 }
