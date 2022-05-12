@@ -22,7 +22,11 @@ const cubeSchema = new mongoose.Schema({
         min: [1, 'Difficulty level should be greater than or equal to 1'],
         max: [6, 'Difficulty level should be less than or equal to 6'],
     },
-    accessories: [{ type: mongoose.Types.ObjectId, ref: 'Accessory' }]
+    accessories: [{ type: mongoose.Types.ObjectId, ref: 'Accessory' }],
+    ownerId : {
+        type: String,
+        required: true,
+    }
 });
 
 const Cube = mongoose.model('Cube', cubeSchema);
