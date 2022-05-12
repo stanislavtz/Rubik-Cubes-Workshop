@@ -1,6 +1,6 @@
 
 const { createUser, loginUser } = require("../services/userService");
-const { jwtPromise } = require("../utils/promises");
+const { AUTH_COOKIE_NAME } = require("../utils/constants");
 
 const renderLoginPage = (req, res) => res.render('user/login');
 const renderRegisterPage = (req, res) => res.render('user/register');
@@ -18,7 +18,7 @@ const login = (req, res) => {
 
     loginUser({ username, password })
         .then(token => {
-            res.cookie('#user-auth-token', token, { httpOnly: true });
+            res.cookie(AUTH_COOKIE_NAME, token, { httpOnly: true });
             res.redirect('/');
         })
         .catch(err => console.log(err));
