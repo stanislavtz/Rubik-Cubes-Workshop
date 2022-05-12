@@ -4,5 +4,5 @@ const jwt = require('jsonwebtoken');
 
 exports.jwtPromise = {
     sign: util.promisify(jwt.sign),
-    verify: util.promisify(jwt.verify)
+    verify: jwt.verify
 }
