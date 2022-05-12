@@ -11,7 +11,7 @@ async function renderHomePage(req, res) {
 }
 
 async function renderSearchResult(req, res) {
-    let result = await getAll();
+    let result = await getAllCubes();
 
     if (req.query.search) {
         result = result.filter(r =>
@@ -26,10 +26,7 @@ async function renderSearchResult(req, res) {
         result = result.filter(r => Number(r.difficulty) <= Number(req.query.to));
     }
 
-    console.log('result', result)
-
     if (result.length > 0) {
-
         return res.render('home', { cubes: result });
     }
 
