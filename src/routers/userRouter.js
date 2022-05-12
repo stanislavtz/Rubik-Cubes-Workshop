@@ -4,11 +4,15 @@ const {
     renderLoginPage,
     renderRegisterPage,
     register,
-    login
+    login,
+    logout
 } = require('../controllers/userController');
 
-router.get('/register', renderRegisterPage);
-router.get('/login', renderLoginPage);
+const { isGuest, isAuthenticated } = require('../middlewares/authMiddleware');
+
+router.get('/register', isGuest, renderRegisterPage);
+router.get('/login', isGuest, renderLoginPage);
+router.get('/logout', isAuthenticated, logout);
 
 router.post('/register', register);
 router.post('/login', login);

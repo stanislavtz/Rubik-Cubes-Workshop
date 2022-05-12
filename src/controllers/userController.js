@@ -24,9 +24,18 @@ const login = (req, res) => {
         .catch(err => console.log(err));
 }
 
+const logout = (req, res) => {
+    delete req.user;
+    delete res.locals.user;
+
+    res.clearCookie(AUTH_COOKIE_NAME);
+    res.redirect('/');
+}
+
 module.exports = {
     register,
     login,
+    logout,
     renderLoginPage,
     renderRegisterPage
 }
