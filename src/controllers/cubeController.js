@@ -5,9 +5,9 @@ const renderCreateCubePage = (req, res) => res.render('cube/create');
 
 const renderCubeDetailsPage = async (req, res) => {
     const cube = await getCubeById(req.params.cubeId).populate('accessories');
-    let isCubeOwner = false;
-    if (cube.ownerId === req.user?._id) { isCubeOwner = true; }
-
+    
+    let isCubeOwner = cube.ownerId == req.user?._id;
+   
     res.render('cube/details', { ...cube, isCubeOwner });
 }
 
@@ -69,8 +69,8 @@ const editCube = async (req, res) => {
         const cube = await getCubeById(req.params.cubeId).populate('accessories');
         const updatedCube = { ...cube, ...req.body }
         await updateCube(cube._id, updatedCube);
-        
-        res.render('cube/details', {...updatedCube, isCubeOwner: true});
+
+        res.render('cube/details', { ...updatedCube, isCubeOwner: true });
     } catch (error) {
         console.error(error);
     }
