@@ -18,19 +18,17 @@ const login = (req, res) => {
 
     loginUser({ username, password })
         .then(token => {
+            console.log(token);
             res.cookie(AUTH_COOKIE_NAME, token, { httpOnly: true });
             res.redirect('/');
         })
         .catch(err => {
-            console.error(err);
+            console.error(err.message);
             res.redirect('/register');
         });
 }
 
 const logout = (req, res) => {
-    delete req.user;
-    delete res.locals.user;
-
     res.clearCookie(AUTH_COOKIE_NAME);
     res.redirect('/');
 }
