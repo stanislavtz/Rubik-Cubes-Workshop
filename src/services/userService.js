@@ -15,6 +15,7 @@ const loginUser = async ({ username, password }) => {
     try {
         const user = await User.findOne({ username });
         const isLogged = await bcrypt.compare(password, user.password);
+        
         if (isLogged) {
             const payload = {
                 _id: user._id,
@@ -25,10 +26,13 @@ const loginUser = async ({ username, password }) => {
                 expiresIn: '1d'
             }
 
-            return await jwtPromise.sign(payload, SECRET, options);
+            return jwtPromise.sign(payload, SECRET, options);
         }
+
+        throw {message: 'Wrong username or password'}
+        
     } catch (err) {
-        throw { message: err.message }
+        throw err;
     }
 }
 
