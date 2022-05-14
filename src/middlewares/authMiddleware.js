@@ -9,8 +9,13 @@ exports.auth = (req, res, next) => {
     }
 
     return jwtPromise.verify(token, SECRET, (err, decoded) => {
+        if(err) {
+            return res.status(401).redirect('/login');
+        }
+
         req.user = decoded;
         res.locals.user = decoded;
+        
         next();
     });
 }
