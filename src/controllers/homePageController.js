@@ -2,9 +2,8 @@ const { getAllCubes } = require('../services/cubeService');
 
 async function renderHomePage(req, res) {
     try {
-        const user = res.locals.user;
         const cubes = await getAllCubes();
-        res.render('home', { cubes, user })
+        res.render('home', { cubes })
     } catch (error) {
         console.error(error);
     }
