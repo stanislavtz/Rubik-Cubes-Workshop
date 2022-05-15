@@ -4,6 +4,7 @@ const { AUTH_COOKIE_NAME, SECRET } = require("../utils/constants");
 
 exports.auth = (req, res, next) => {
     const token = req.cookies[AUTH_COOKIE_NAME];
+    
     if(!token) {
        return next();
     }
@@ -30,9 +31,10 @@ exports.isAuthenticated = (req, res, next) => {
 
 exports.isAuthorized = async (req, res, next) => {
     try {
-        const cube = await getCubeById(req.params.cubeId);
+        const cube = await getCubeById(req.params.cubeId).populate('accessories');
         
-        if(cube.ownerId === req.user._id) {
+        if(cube.ownerId == req.user._id) {
+            
             return next();
         }
 
