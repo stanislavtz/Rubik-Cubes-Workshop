@@ -4,25 +4,25 @@ const { AUTH_COOKIE_NAME, SECRET } = require("../utils/constants");
 
 exports.auth = (req, res, next) => {
     const token = req.cookies[AUTH_COOKIE_NAME];
-    
-    if(!token) {
-       return next();
+
+    if (!token) {
+        return next();
     }
 
-    return jwtPromise.verify(token, SECRET, (err, decoded) => {
-        if(err) {
-            return res.status(401).redirect('/login');
-        }
-
-        req.user = decoded;
-        res.locals.user = decoded;
-        
-        next();
-    });
+    jwtPromise.verify(token, SECRET)
+        .then(decoded => {
+            req.user = decoded;
+            res.locals.user = decoded;
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(401).redirect('/login');
+        });
 }
 
 exports.isAuthenticated = (req, res, next) => {
-    if(!req.user) {
+    if (!req.user) {
         return res.redirect('/login');
     }
 
@@ -32,20 +32,21 @@ exports.isAuthenticated = (req, res, next) => {
 exports.isAuthorized = async (req, res, next) => {
     try {
         const cube = await getCubeById(req.params.cubeId).populate('accessories');
-        
-        if(cube.ownerId == req.user._id) {
-            
-            return next();
+
+        if (cube.ownerId != req.user._id) {
+
+            return res.redirect('/');
         }
 
-        res.redirect('/');
+        next();
+
     } catch (error) {
         console.error(error);
     }
 }
 
 exports.isGuest = (req, res, next) => {
-    if(req.user) {
+    if (req.user) {
         return res.redirect('/');
     }
 
