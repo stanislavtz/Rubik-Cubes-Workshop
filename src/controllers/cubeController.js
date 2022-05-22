@@ -43,13 +43,12 @@ const createCube = (req, res) => {
     const cube = { name, imageUrl, description, difficulty, ownerId };
 
     create(cube)
-        .then(res.redirect('/'))
+        .then(() => res.redirect('/'))
         .catch(err => console.log(err));
 }
 
 const attachAccessory = async (req, res) => {
     try {
-        console.log(req.body.accessory)
         const cube = await getCubeById(req.params.cubeId);
         const accessory = await getAccessoryById(req.body.accessory);
 
