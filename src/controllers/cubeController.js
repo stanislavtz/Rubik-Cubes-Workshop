@@ -17,7 +17,7 @@ const renderCubeAttachAccessoryPage = async (req, res) => {
         const accessories = await getNotAttachedAccessories(cube.accessories);
 
         let isCubeOwner = false;
-        if (cube.ownerId === req.user?._id) { isCubeOwner = true; }
+        if (cube.ownerId == req.user?._id) { isCubeOwner = true; }
 
         res.render('cube/attach', { ...cube, accessories, isCubeOwner });
     } catch (error) {
@@ -49,6 +49,7 @@ const createCube = (req, res) => {
 
 const attachAccessory = async (req, res) => {
     try {
+        console.log(req.body.accessory)
         const cube = await getCubeById(req.params.cubeId);
         const accessory = await getAccessoryById(req.body.accessory);
 
