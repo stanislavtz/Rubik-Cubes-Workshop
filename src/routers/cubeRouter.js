@@ -21,7 +21,7 @@ router.get('/:cubeId/edit', isAuthenticated, isAuthorized, renderEditCubePage);
 router.get('/:cubeId/delete', isAuthenticated, isAuthorized, renderDeleteCubePage);
 
 router.post('/create', isAuthenticated, createCube);
-router.post('/:cubeId/attach', isAuthenticated, attachAccessory);
+router.post('/:cubeId/attach', isAuthenticated, isAuthorized, attachAccessory);
 router.post('/:cubeId/edit', isAuthenticated, isAuthorized, editCube);
 router.post('/:cubeId/delete', isAuthenticated, isAuthorized, removeCube);
 
