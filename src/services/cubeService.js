@@ -6,7 +6,7 @@ const getCubeById = (id) => Cube.findById(id).lean();
 
 const create = (cube) => Cube.create(cube);
 
-const updateCube = (id, cube) => Cube.findByIdAndUpdate(id, cube);
+const updateCube = (id, cube) => Cube.findByIdAndUpdate(id, cube, { runValidators: true });
 
 const deleteCube = (id) => Cube.findByIdAndDelete(id);
 
