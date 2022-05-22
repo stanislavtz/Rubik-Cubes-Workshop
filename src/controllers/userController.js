@@ -18,7 +18,6 @@ const login = (req, res) => {
 
     loginUser({ username, password })
         .then(token => {
-            console.log(token);
             res.cookie(AUTH_COOKIE_NAME, token, { httpOnly: true });
             res.redirect('/');
         })
